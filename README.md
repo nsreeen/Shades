@@ -1,8 +1,8 @@
 # Shades
 
 ## Language rules
-black: toggle * on/off (it is off initially)
-white: resets counter
+black: toggle * on/off (it is off initially) AND resets counter
+white: empty space - marks the end of the program
 
 Shades :
 light
