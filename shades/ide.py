@@ -1,6 +1,6 @@
 from os import path
 from PIL import Image, ImageDraw
-from shades.config import height, filename, WHITE, width
+from shades.config import height, WHITE, width
 from shades.conversions import to_hexcolor
 
 def get_first_white_y(image):
@@ -12,14 +12,14 @@ def get_first_white_y(image):
         current += 1
     return current
 
-def create_and_save_new_image():
+def create_new_program(name):
     image = Image.new('RGBA', (width, height), color=WHITE)
-    image.save(filename, "PNG")
+    image.save(name, "PNG")
     return image
 
-def extend_program(color):
+def extend_program(filename, color):
     if not path.exists(filename):
-        create_and_save_new_image()
+        create_new_program(filename)
 
     image = Image.open(filename)
     draw = ImageDraw.Draw(image)
