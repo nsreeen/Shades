@@ -25,8 +25,27 @@ def push():
     stack.append(counter)
     reset_counter()
 
+def pop():
+    return stack.pop()
+
+def add():
+    a = stack.pop()
+    b = stack.pop()
+    return a + b
+
+def multiply():
+    a = stack.pop()
+    b = stack.pop()
+    return a * b
+
+def duplicate():
+    stack.append(stack[-1])
+
 def number_out():
     print(str(stack[-1]))
+
+def char_out():
+    print(chr(stack[-1]))
 
 def toggle_star():
     global star
@@ -44,15 +63,25 @@ def evaluate(previous, current):
         return inc_counter
 
     if current == BLACK:
-        return toggle_star
+        return on_black
 
     difference = int(abs(get_difference(previous, current)))  # todo not abs
     if difference == 0:
         return inc_counter
-    if difference == 1 and star == False:
+    if difference == 1 and not star:
         return push
-    if difference == 6 and star == False:
+    if difference == 1 and star:
+        return pop
+    if difference == 2 and not star:
+        return add
+    if difference == 3 and not star:
+        return multiply
+    if difference == 5 and star:
+        return duplicate
+    if difference == 6 and not star:
         return number_out
+    if difference == 6 and star:
+        return char_out
 
 
 def interpret(image):
@@ -64,10 +93,11 @@ def interpret(image):
         current_hex = to_hexcolor(current_rgb)
 
         if current_hex == WHITE:
-            return instructions
+            break
 
         instruction = evaluate(previous, current_hex)
         if instruction != None:
+            print(instruction.__name__)
             instructions.append(instruction)
 
         previous = current_hex
@@ -79,3 +109,4 @@ def interpret(image):
 def execute(image):
     for instruction in interpret(image):
         instruction()
+        print(stack)
