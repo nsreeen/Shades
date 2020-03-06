@@ -17,7 +17,8 @@ dark
 3 steps*:  divide
 4 steps:   mod
 4 steps*:  not
-5 steps:   greater
+5 steps:   greater or equal
 5 steps*:  duplicate
 6 steps:   out (number)
 6 steps*:  out (char)
+7 steps:   swap

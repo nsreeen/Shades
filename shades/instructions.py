@@ -76,3 +76,9 @@ def number_out(state):
 def char_out(state):
     print(chr(state.stack[-1]))
     return state
+
+def swap(state):
+    top = state.stack.pop()
+    second = state.stack.pop()
+    state.stack.extend([top, second])
+    return state
