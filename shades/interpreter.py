@@ -2,12 +2,12 @@ from shades.config import BLACK, WHITE
 from shades.conversions import to_hexcolor, to_rgba
 
 stack = []
-counter = 0
+counter = 1
 star = False
 
 def reset_counter():
     global counter
-    counter = 0
+    counter = 1
 
 def inc_counter():
     global counter
@@ -31,12 +31,12 @@ def pop():
 def add():
     a = stack.pop()
     b = stack.pop()
-    return a + b
+    return stack.append(a + b)
 
 def multiply():
     a = stack.pop()
     b = stack.pop()
-    return a * b
+    return stack.append(a * b)
 
 def duplicate():
     stack.append(stack[-1])
@@ -56,18 +56,17 @@ def on_black():
     reset_counter()
 
 def evaluate(previous, current):
-    if not current:
+    if not current or not previous:
         return None
-
-    if not previous:
-        return inc_counter
 
     if current == BLACK:
         return on_black
 
-    difference = int(abs(get_difference(previous, current)))  # todo not abs
+    difference = int(get_difference(previous, current))
+    print('difference: ' + str(difference))
     if difference == 0:
         return inc_counter
+
     if difference == 1 and not star:
         return push
     if difference == 1 and star:
@@ -89,8 +88,10 @@ def interpret(image):
     i = 0
     previous = None
     while i < image.size[1]:
+        print('\n')
         current_rgb = image.getpixel((0, i))
         current_hex = to_hexcolor(current_rgb)
+        print(current_hex)
 
         if current_hex == WHITE:
             break
@@ -98,15 +99,13 @@ def interpret(image):
         instruction = evaluate(previous, current_hex)
         if instruction != None:
             print(instruction.__name__)
-            instructions.append(instruction)
+            instruction()
+
+        print('counter: ' + str(counter))
+        print(stack)
 
         previous = current_hex
         i += 1
 
     return instructions
 
-
-def execute(image):
-    for instruction in interpret(image):
-        instruction()
-        print(stack)
