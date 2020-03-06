@@ -1,6 +1,6 @@
 from shades.config import BLACK, WHITE
 from shades.conversions import to_hexcolor, to_rgba
-from shades.instructions import on_black, inc_counter, push, pop, add, multiply, duplicate, number_out, char_out
+from shades.instructions import on_black, inc_counter, push, pop, add, mul, dup, number_out, char_out
 
 class State:
     def __init__(self, stack=None, counter=1 , star=False):
@@ -34,9 +34,9 @@ def evaluate(state, previous, current):
     if difference == 2 and not state.star:
         return add
     if difference == 3 and not state.star:
-        return multiply
+        return mul
     if difference == 5 and state.star:
-        return duplicate
+        return dup
     if difference == 6 and not state.star:
         return number_out
     if difference == 6 and state.star:

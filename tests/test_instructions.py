@@ -1,5 +1,6 @@
-from shades.instructions import on_black, inc_counter, push, pop, add, multiply, duplicate, number_out, char_out
+from shades.instructions import on_black, inc_counter, push, pop, add, mul, sub, div, mod, dup, not_, greq
 from shades.interpreter import State
+
 
 class TestInstructions():
 
@@ -26,15 +27,38 @@ class TestInstructions():
         assert len(state.stack) == 1
         assert state.stack[0] == 5
 
-    def test_multiply(self):
-        state = multiply(State(stack=[2, 3]))
+    def test_mul(self):
+        state = mul(State(stack=[2, 3]))
         assert len(state.stack) == 1
         assert state.stack[0] == 6
 
-    def test_duplicate(self):
-        state = duplicate((State(stack=[1])))
+    def test_sub(self):
+        state = sub(State(stack=[10, 4]))
+        assert len(state.stack) == 1
+        assert state.stack[0] == 6
+
+    def test_div(self):
+        state = div(State(stack=[6, 2]))
+        assert len(state.stack) == 1
+        assert state.stack[0] == 3
+
+    def test_mod(self):
+        state = mod(State(stack=[5, 2]))
+        assert len(state.stack) == 1
+        assert state.stack[0] == 1
+
+    def test_dup(self):
+        state = dup((State(stack=[1])))
         assert len(state.stack) == 2
         assert state.stack[0] == 1
         assert state.stack[1] == 1
 
+    def test__not(self):
+        state = not_(State(stack=[3]))
+        assert len(state.stack) == 1
+        assert state.stack[0] == -3
 
+    def test__greq(self):
+        state = greq(State(stack=[3, 1]))
+        assert len(state.stack) == 1
+        assert state.stack[0] == -1
