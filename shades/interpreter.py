@@ -81,5 +81,4 @@ def interpret(image):
         previous = current_hex
         i += 1
 
-    return instructions
 
